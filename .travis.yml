@@ -35,11 +35,7 @@ jobs:
     - stage: lint
       script:
         - 'wget -q -O docker-compose.yml https://raw.github.com/cerner/terra-toolkit/master/config/docker/ci-docker-compose.yml'
-        - "travis_wait docker-compose run -e TRAVIS=$TRAVIS -e CI=$CI test-chrome npm run lint"
-    - stage: jest
-      script:
-        - 'wget -q -O docker-compose.yml https://raw.github.com/cerner/terra-toolkit/master/config/docker/ci-docker-compose.yml'
-        - "travis_wait docker-compose run -e TRAVIS=$TRAVIS -e CI=$CI test-chrome npm run jest"
+        - "travis_wait docker-compose run -e TRAVIS=$TRAVIS -e CI=$CI test-chrome npm run lint && npm run jest"
     - stage: danger
       script:
         - 'wget -q -O docker-compose.yml https://raw.github.com/cerner/terra-toolkit/master/config/docker/ci-docker-compose.yml'
@@ -82,9 +78,8 @@ jobs:
         - 'rm -f $HOME/docker/*.tar.gz'
 stages:
   - build
-  - lint
   - danger
-  - jest
+  - lint
   - test
   - name: deploy
     if: type != pull_request
